@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link, Settings2 } from "lucide-react";
 import { useState } from "react";
 import { navElements } from "@/utils/utils";
+import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -33,12 +34,16 @@ const Navbar = () => {
                 );
               })}
             </div>
-            <Button className="text-sm bg-black text-white hover:bg-gray-900">
-              Log in
-            </Button>
-            <Button className="text-sm bg-white text-black hover:bg-gray-200">
-              Start Free
-            </Button>
+            <RouterLink to={"/login"}>
+              <Button className="text-sm bg-black text-white hover:bg-gray-900">
+                Log in
+              </Button>
+            </RouterLink>
+            <RouterLink to={"/signup"}>
+              <Button className="text-sm bg-white text-black hover:bg-gray-200">
+                Start Free
+              </Button>
+            </RouterLink>
           </div>
 
           {/* Mobile Menu Button */}

@@ -15,7 +15,7 @@ const Feature = () => {
                 <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                <h3 className="text-lg font-semibold mb-2 text-white">{feature.title}</h3>
                 <p className="text-gray-400">{feature.description}</p>
               </CardContent>
             </Card>

@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Clock, Globe, Shield, Zap } from "lucide-react";
+import { Link as RouterLink } from "react-router-dom";
 
 const Hero = () => {
   return (
     <div className="relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent" />
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent" /> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
         <div className="text-center space-y-8">
@@ -31,10 +32,12 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col justify-center items-center sm:flex-row gap-3">
-            <Button className="h-12 px-8 bg-white text-black hover:bg-gray-200 transition-color">
-              <Zap className="w-4 h-4 mr-2" />
-              Shorten Now
-            </Button>
+            <RouterLink to={"/signup"}>
+              <Button className="h-12 px-8 bg-white text-black hover:bg-gray-200 transition-color">
+                <Zap className="w-4 h-4 mr-2" />
+                Shorten Now
+              </Button>
+            </RouterLink>
           </div>
 
           <div className="flex items-center justify-center space-x-8 text-sm text-gray-400">
