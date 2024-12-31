@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -26,6 +26,12 @@ const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/dashboard");
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -42,7 +48,7 @@ const SignupForm = () => {
     const data = await res.json();
 
     if (res.status == 201) {
-      navigate("/dashboard");
+      navigate("/login");
     } else {
       toast.error(data.msg);
     }

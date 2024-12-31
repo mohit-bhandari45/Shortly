@@ -27,16 +27,13 @@ async function loginHandler(req, res) {
     const { email, password } = req.body;
 
     try {
-        const user = await User.findOne({
-            email: email,
-            password: password
-        })
+        const data = await User.matchPassGenToken(email, password);
 
-        if (!user) {
-            return res.status(400).json({ msg: "Incorrect Email or password" });
+        if (data.status >= 400) {
+            return res.status(data.status).json({ msg: data.msg })
         }
 
-        return res.status(200).json({ user });
+        return res.status(data.status).json(data.msg);
     } catch (error) {
         console.log(error);
         return res.status(500).json({ msg: "Internal Server Error" })

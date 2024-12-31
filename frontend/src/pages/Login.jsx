@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import { loginAPI } from "@/apis/api";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,10 +9,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { loginAPI } from "@/apis/api";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -24,6 +23,13 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if(localStorage.getItem("token")){
+      navigate("/dashboard")
+    }
+  }, [])
+  
 
   // Function declarations (to be implemented)
   const handleSubmit = async (e) => {
@@ -41,6 +47,7 @@ const LoginForm = () => {
     const data = await res.json();
 
     if (res.status == 200) {
+      localStorage.setItem("token", data);
       navigate("/dashboard");
     } else {
       toast.error(data.msg);
@@ -61,7 +68,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 font-[Helvetica]">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
@@ -138,7 +145,7 @@ const LoginForm = () => {
         </CardContent>
         <CardFooter className="flex flex-col space-y-4 text-center text-sm text-gray-600">
           <div>
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a
               href="/signup"
               className="text-black hover:underline font-medium"

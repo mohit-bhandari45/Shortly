@@ -1,8 +1,15 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DashBoard = () => {
-  return (
-    <div>DashBoard</div>
-  )
-}
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
 
-export default DashBoard
+  return <div>DashBoard</div>;
+};
+
+export default DashBoard;
