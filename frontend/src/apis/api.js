@@ -19,7 +19,7 @@ API.interceptors.request.use(
     }
 )
 
-const signupAPI = `${API}/auth/signup`;
-const loginAPI = `${API}/auth/login`;
+const signupAPI = `${host}/auth/signup`;
+const loginAPI = `${host}/auth/login`;
 
-export { signupAPI, loginAPI };
+export { signupAPI, loginAPI,API };
