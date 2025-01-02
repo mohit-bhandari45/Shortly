@@ -22,4 +22,8 @@ API.interceptors.request.use(
 const signupAPI = `${host}/auth/signup`;
 const loginAPI = `${host}/auth/login`;
 
-export { signupAPI, loginAPI,API };
+const addUrlAPI = "/api/add";
+const getUrlsAPI = "/api/get";
+const deleteAPI="/api/delete"
+
+export { signupAPI, loginAPI, API,getUrlsAPI, addUrlAPI,deleteAPI };

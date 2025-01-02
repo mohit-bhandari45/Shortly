@@ -12,9 +12,7 @@ import { useLocation } from "react-router-dom";
 
 export function AppSidebar({ ...props }) {
   const location = useLocation();
-
   const currentPath = location.pathname;
-  console.log(currentPath);
 
   const data = {
     user: {
@@ -31,9 +29,9 @@ export function AppSidebar({ ...props }) {
       },
       {
         title: "URLS",
-        url: "/urls",
+        url: "/dashboard/urls",
         icon: Link,
-        isActive: currentPath === "/urls",
+        isActive: currentPath === "/dashboard/urls",
       },
     ],
   };

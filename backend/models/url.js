@@ -1,22 +1,26 @@
 const mongoose = require("mongoose")
-const User = require("./user")
 
-const urlPartSchema = mongoose.Schema({
+const urlPartSchema = new mongoose.Schema({
     shortURL: {
         type: String,
         unique: true
     },
     originalURL: {
         type: String,
+    },
+    clicks: {
+        type: Number,
+        default: 0
     }
-})
+}, { timestamps: true })
 
-const urlSchema = mongoose.Schema({
+const urlSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
-    urls: [urlPartSchema]
-}, { timeStamps: true })
+    urls: [urlPartSchema],
+}, { timestamps: true })
 
 const URL = mongoose.model("url", urlSchema);
 module.exports = URL;

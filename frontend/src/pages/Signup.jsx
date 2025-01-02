@@ -14,6 +14,7 @@ import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { signupAPI } from "@/apis/api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { ClimbingBoxLoader } from "react-spinners";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -25,10 +26,13 @@ const SignupForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       navigate("/dashboard");
+    } else {
+      setPageLoading(false);
     }
   }, []);
 
@@ -67,6 +71,10 @@ const SignupForm = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  if (pageLoading) {
+    return <ClimbingBoxLoader />;
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 font-[Helvetica]">

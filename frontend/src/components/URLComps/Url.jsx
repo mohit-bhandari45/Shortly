@@ -1,71 +1,102 @@
-import {
-    Alert,
-    AlertDescription,
-} from "@/components/ui/alert";
+import { API, deleteAPI, getUrlsAPI } from "@/apis/api";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { Copy, ExternalLink, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { Copy, ExternalLink, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { ClimbingBoxLoader } from "react-spinners";
+import moment from "moment";
 
 const Url = () => {
-  const [longUrl, setLongUrl] = useState('');
-  const [urls, setUrls] = useState([
-    { 
-      id: 1,
-      longUrl: 'https://example.com/very/long/url/that/needs/shortening',
-      shortUrl: 'http://short.url/abc123',
-      clicks: 145,
-      createdAt: '2024-01-01'
+  const [longUrl, setLongUrl] = useState("");
+  const [urls, setUrls] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    getAllUrls();
+  }, []);
+
+  const getAllUrls = async () => {
+    const res = await API.get(getUrlsAPI);
+    if (res.status == 200) {
+      if (res.data.length == 0) {
+        toast.success("No Urls found");
+      }
+      setUrls(res.data);
+    } else {
+      toast.error(res.data.msg);
     }
-  ]);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!longUrl) {
-      setError('Please enter a URL');
+      setError("Please enter a URL");
       return;
     }
-    
+
     // Mock URL shortening - in real app, this would call your backend
     const newUrl = {
       id: urls.length + 1,
       longUrl,
       shortUrl: `http://short.url/${Math.random().toString(36).substr(2, 6)}`,
       clicks: 0,
-      createdAt: new Date().toISOString().split('T')[0]
+      createdAt: new Date().toISOString().split("T")[0],
     };
-    
+
     setUrls([newUrl, ...urls]);
-    setLongUrl('');
-    setSuccess('URL shortened successfully!');
-    setTimeout(() => setSuccess(''), 3000);
+    setLongUrl("");
   };
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-    setSuccess('Copied to clipboard!');
-    setTimeout(() => setSuccess(''), 2000);
+  const handleCopy = async (shortenedURL) => {
+    try {
+      await navigator.clipboard.writeText(
+        `http://localhost:4000/${shortenedURL}`
+      );
+      toast.success("Link Copied to Clipboard");
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
   };
 
-  const deleteUrl = (id) => {
-    setUrls(urls.filter(url => url.id !== id));
+  const handleOpen = async (shortenedURL) => {
+    try {
+      window.open(`http://localhost:4000/${shortenedURL}`, "_blank");
+      getAllUrls()
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    setUrls(urls.filter((url) => url._id !== id));
+    const res = await API.get(`${deleteAPI}/${id}`);
+
+    if (res.status == 200) {
+      toast.success(res.data.msg);
+    } else {
+      toast.error(res.data.msg);
+    }
+  };
+
+  const formatDate = (isoDate) => {
+    const formattedDate = moment(isoDate).format("MMMM Do YYYY, h:mm:ss A");
+    return formattedDate;
   };
 
   return (
@@ -76,66 +107,74 @@ const Url = () => {
         </Alert>
       )}
 
-      {success && (
-        <Alert>
-          <AlertDescription>{success}</AlertDescription>
-        </Alert>
-      )}
-
       <Card className="bg-white">
         <CardHeader>
           <CardTitle>Your Shortened URLs</CardTitle>
-          <CardDescription>Manage and track your shortened URLs</CardDescription>
+          <CardDescription>
+            Manage and track your shortened URLs
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Original URL</TableHead>
-                <TableHead>Short URL</TableHead>
-                <TableHead>Clicks</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {urls.map((url) => (
-                <TableRow key={url.id}>
-                  <TableCell className="max-w-xs truncate">
-                    {url.longUrl}
-                  </TableCell>
-                  <TableCell>{url.shortUrl}</TableCell>
-                  <TableCell>{url.clicks}</TableCell>
-                  <TableCell>{url.createdAt}</TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => copyToClipboard(url.shortUrl)}
-                      >
-                        <Copy className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => window.open(url.shortUrl, '_blank')}
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => deleteUrl(url.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
+          {urls == null || urls.length === 0 ? (
+            urls == null ? (
+              <div className="w-full h-full justify-center items-center flex">
+                <ClimbingBoxLoader />
+              </div>
+            ) : (
+              <div className="w-full h-full justify-center items-center flex">
+                <div>No URLs found!</div>
+              </div>
+            )
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Original URL</TableHead>
+                  <TableHead>Short URL</TableHead>
+                  <TableHead>Clicks</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {urls.map((url) => (
+                  <TableRow key={url.id}>
+                    <TableCell className="max-w-xs truncate">
+                      {url.originalURL}
+                    </TableCell>
+                    <TableCell>{url.shortURL}</TableCell>
+                    <TableCell>{url.clicks}</TableCell>
+                    <TableCell>{formatDate(url.createdAt)}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleCopy(url.shortURL)}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleOpen(url.shortURL)}
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleDelete(url._id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>

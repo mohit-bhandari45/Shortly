@@ -9,8 +9,6 @@ import {
 import { Link } from "react-router-dom";
 
 export function NavMain({ items }) {
-
-  console.log(items)
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="text-2xl font-bold mb-3 mt-2">

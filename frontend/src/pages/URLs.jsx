@@ -12,8 +12,19 @@ import {
 } from "@/components/ui/sidebar";
 import Url from "@/components/URLComps/Url";
 import { Separator } from "@radix-ui/react-separator";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const URLs = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <SidebarProvider className="font-[Helvetica]">
       <AppSidebar />

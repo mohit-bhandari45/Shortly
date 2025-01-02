@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { API } from "@/apis/api";
+import { addUrlAPI, API } from "@/apis/api";
 import toast from "react-hot-toast";
 
 export const Home = () => {
@@ -13,7 +13,7 @@ export const Home = () => {
 
   const handleShortenURL = async () => {
     const res = await API.post(
-      "/api/add",
+      addUrlAPI,
       {
         url: url,
       },
@@ -38,7 +38,9 @@ export const Home = () => {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(`http://localhost:4000/${shortenedURL}`);
+      await navigator.clipboard.writeText(
+        `http://localhost:4000/${shortenedURL}`
+      );
       toast.success("Link Copied to Clipboard");
     } catch (err) {
       console.error("Failed to copy:", err);
@@ -60,6 +62,7 @@ export const Home = () => {
               />
               <Button
                 onClick={handleShortenURL}
+                disabled={url.length === 0 ? true : false}
                 className="h-12 px-8 bg-white text-black hover:bg-gray-200 transition-colors"
               >
                 <Zap className="w-4 h-4 mr-2" />

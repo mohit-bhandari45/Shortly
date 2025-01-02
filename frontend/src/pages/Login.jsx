@@ -14,6 +14,7 @@ import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { ClimbingBoxLoader } from "react-spinners";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -24,12 +25,15 @@ const LoginForm = () => {
     password: "",
   });
 
+  const [pageLoading, setPageLoading] = useState(true);
+
   useEffect(() => {
-    if(localStorage.getItem("token")){
-      navigate("/dashboard")
+    if (localStorage.getItem("token")) {
+      navigate("/dashboard");
+    } else {
+      setPageLoading(false);
     }
-  }, [])
-  
+  }, []);
 
   // Function declarations (to be implemented)
   const handleSubmit = async (e) => {
@@ -66,6 +70,10 @@ const LoginForm = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  if (pageLoading) {
+    return <ClimbingBoxLoader />;
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 font-[Helvetica]">
