@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ClimbingBoxLoader } from "react-spinners";
 
 const LoginForm = () => {
@@ -132,14 +132,14 @@ const LoginForm = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-end">
+            {/* <div className="flex items-center justify-end">
               <a
                 href="/forgot-password"
                 className="text-sm text-black hover:underline"
               >
                 Forgot password?
               </a>
-            </div>
+            </div> */}
 
             <Button
               type="submit"
@@ -153,12 +153,12 @@ const LoginForm = () => {
         <CardFooter className="flex flex-col space-y-4 text-center text-sm text-gray-600">
           <div>
             Don&apos;t have an account?{" "}
-            <a
-              href="/signup"
+            <Link
+              to="/signup"
               className="text-black hover:underline font-medium"
             >
               Sign up
-            </a>
+            </Link>
           </div>
         </CardFooter>
       </Card>

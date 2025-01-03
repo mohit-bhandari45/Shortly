@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { signupAPI } from "@/apis/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ClimbingBoxLoader } from "react-spinners";
 
@@ -162,11 +162,11 @@ const SignupForm = () => {
         <CardFooter className="flex flex-col space-y-4 text-center text-sm text-gray-600">
           <div>
             Already have an account?{" "}
-            <a href="/login" className="text-black hover:underline font-medium">
+            <Link to="/login" className="text-black hover:underline font-medium">
               Sign in
-            </a>
+            </Link>
           </div>
-          <div className="text-xs">
+          {/* <div className="text-xs">
             By signing up, you agree to our{" "}
             <a href="/terms" className="text-black hover:underline">
               Terms of Service
@@ -175,7 +175,7 @@ const SignupForm = () => {
             <a href="/privacy" className="text-black hover:underline">
               Privacy Policy
             </a>
-          </div>
+          </div> */}
         </CardFooter>
       </Card>
     </div>
