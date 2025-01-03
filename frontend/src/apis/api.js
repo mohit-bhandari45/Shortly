@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://localhost:4000";
+const host = "https://screeching-matilda-mohit123-2e32ffda.koyeb.app/";
 
 const API = axios.create({
     baseURL: host
