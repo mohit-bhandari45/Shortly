@@ -1,5 +1,9 @@
 const { Router } = require("express");
-const { addURLHandler, getAllUrls, deleteUrlHandler } = require("../controllers/url");
+const {
+    addURLHandler,
+    getAllUrls,
+    deleteUrlHandler,
+} = require("../controllers/url");
 const checkAuth = require("../middlewares/auth");
 
 const router = Router();

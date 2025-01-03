@@ -1,7 +1,7 @@
 const { decodeToken } = require("../service/user");
 
 function checkAuth(req, res, next) {
-    const bearerToken = req.headers["authorization"]
+    const bearerToken = req.headers["authorization"];
     if (!bearerToken) {
         return res.status(401).json({ msg: "UnAuthorized" });
     }
@@ -16,4 +16,4 @@ function checkAuth(req, res, next) {
     next();
 }
 
-module.exports = checkAuth
+module.exports = checkAuth;

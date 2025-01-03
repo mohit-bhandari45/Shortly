@@ -33,9 +33,9 @@ const LoginForm = () => {
     } else {
       setPageLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Function declarations (to be implemented)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

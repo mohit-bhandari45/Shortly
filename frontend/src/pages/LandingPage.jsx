@@ -1,14 +1,16 @@
-import Feature from "@/components/LandingPageComps/Feature";
-import Hero from "@/components/LandingPageComps/Hero";
-import Navbar from "@/components/LandingPageComps/Navbar";
-import Stats from "@/components/LandingPageComps/Stats";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClimbingBoxLoader } from "react-spinners";
 
+/* Components */
+import Feature from "@/components/LandingPageComps/Feature";
+import Hero from "@/components/LandingPageComps/Hero";
+import Navbar from "@/components/LandingPageComps/Navbar";
+import Stats from "@/components/LandingPageComps/Stats";
+
+/* Component */
 const LandingPage = () => {
   const navigate = useNavigate();
-
   const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {

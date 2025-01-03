@@ -22,7 +22,7 @@ const Navbar = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-6">
-            <div className="flex space-x-6 mr-6">
+            {/* <div className="flex space-x-6 mr-6">
               {navElements.map((element, idx) => {
                 return (
                   <button
@@ -33,7 +33,7 @@ const Navbar = () => {
                   </button>
                 );
               })}
-            </div>
+            </div> */}
             <RouterLink to={"/login"}>
               <Button className="text-sm bg-black text-white hover:bg-gray-900">
                 Log in

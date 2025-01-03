@@ -1,5 +1,4 @@
 import { API, deleteAPI, getUrlsAPI } from "@/apis/api";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,15 +16,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Copy, ExternalLink, Trash2 } from "lucide-react";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ClimbingBoxLoader } from "react-spinners";
-import moment from "moment";
 
 const Url = () => {
-  const [longUrl, setLongUrl] = useState("");
   const [urls, setUrls] = useState(null);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     getAllUrls();
@@ -36,31 +33,12 @@ const Url = () => {
     if (res.status == 200) {
       if (res.data.length == 0) {
         toast.success("No Urls found");
+        console.log("Mohit")
       }
       setUrls(res.data);
     } else {
       toast.error(res.data.msg);
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!longUrl) {
-      setError("Please enter a URL");
-      return;
-    }
-
-    // Mock URL shortening - in real app, this would call your backend
-    const newUrl = {
-      id: urls.length + 1,
-      longUrl,
-      shortUrl: `http://short.url/${Math.random().toString(36).substr(2, 6)}`,
-      clicks: 0,
-      createdAt: new Date().toISOString().split("T")[0],
-    };
-
-    setUrls([newUrl, ...urls]);
-    setLongUrl("");
   };
 
   const handleCopy = async (shortenedURL) => {
@@ -101,12 +79,6 @@ const Url = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 space-y-6">
-      {error && (
-        <Alert variant="destructive">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-
       <Card className="bg-white">
         <CardHeader>
           <CardTitle>Your Shortened URLs</CardTitle>
