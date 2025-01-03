@@ -5,6 +5,7 @@ import Signup from "@/pages/Signup";
 import DashBoard from "./pages/DashBoard";
 import { Toaster } from "react-hot-toast";
 import URLs from "./pages/URLs";
+import Notifications from "./pages/Notifications";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/dashboard/urls" element={<URLs />} />
+        <Route path="/dashboard/notifications" element={<Notifications />} />
       </Routes>
     </BrowserRouter>
   );

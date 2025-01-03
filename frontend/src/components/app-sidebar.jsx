@@ -1,4 +1,4 @@
-import { Home, Link } from "lucide-react";
+import { Bell, Home, Link } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -9,17 +9,24 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { API, getProfileAPI } from "@/apis/api";
 
 export function AppSidebar({ ...props }) {
   const location = useLocation();
   const currentPath = location.pathname;
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const getProfile = async () => {
+    const res = await API.get(getProfileAPI);
+    setUser(res.data.dbUser)
+  };
 
   const data = {
-    user: {
-      name: "Mohit",
-      email: "m@example.com",
-      avatar: "/avatars/shadcn.jpg",
-    },
     navMain: [
       {
         title: "Home",
@@ -33,6 +40,12 @@ export function AppSidebar({ ...props }) {
         icon: Link,
         isActive: currentPath === "/dashboard/urls",
       },
+      {
+        title: "Notifications",
+        url: "/dashboard/notifications",
+        icon: Bell,
+        isActive: currentPath === "/dashboard/notifications",
+      },
     ],
   };
 
@@ -42,7 +55,7 @@ export function AppSidebar({ ...props }) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

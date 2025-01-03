@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
-const urlRoutes = require("./routes/url");
+const apiRoutes = require("./routes/apiRoutes");
 const connection = require("./connection");
 const { getURLHandler } = require("./controllers/url");
 
@@ -17,7 +17,7 @@ app.use(express.json());
 
 /* Routes */
 app.use("/auth", authRoutes);
-app.use("/api", urlRoutes);
+app.use("/api", apiRoutes);
 
 app.get("/:id", getURLHandler);
 

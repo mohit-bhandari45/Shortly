@@ -3,12 +3,9 @@ const {
     addURLHandler,
     getAllUrls,
     deleteUrlHandler,
-} = require("../controllers/url");
-const checkAuth = require("../middlewares/auth");
+} = require("../../controllers/url");
 
 const router = Router();
-
-router.use(checkAuth);
 
 router.post("/add", addURLHandler);
 router.get("/get", getAllUrls);

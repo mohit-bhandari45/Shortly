@@ -99,11 +99,15 @@ const Url = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Original URL</TableHead>
-                  <TableHead>Short URL</TableHead>
-                  <TableHead>Clicks</TableHead>
-                  <TableHead>Created</TableHead>
-                  <TableHead>Actions</TableHead>
+                  {[
+                    "Original URL",
+                    "Short URL",
+                    "Clicks",
+                    "Created",
+                    "Actions",
+                  ].map((data, idx) => {
+                    return <TableHead key={idx}>{data}</TableHead>;
+                  })}
                 </TableRow>
               </TableHeader>
               <TableBody>

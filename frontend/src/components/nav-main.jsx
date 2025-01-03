@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Collapsible } from "@/components/ui/collapsible";
 import {
   SidebarGroup,

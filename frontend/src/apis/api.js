@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const host = "https://screeching-matilda-mohit123-2e32ffda.koyeb.app";
+// const host = "https://screeching-matilda-mohit123-2e32ffda.koyeb.app";
+const host = "http://localhost:4000";
 
 const API = axios.create({
     baseURL: host
@@ -22,8 +23,11 @@ API.interceptors.request.use(
 const signupAPI = `${host}/auth/signup`;
 const loginAPI = `${host}/auth/login`;
 
-const addUrlAPI = "/api/add";
-const getUrlsAPI = "/api/get";
-const deleteAPI = "/api/delete"
+/* URL Apis */
+const addUrlAPI = "/api/url/add";
+const getUrlsAPI = "/api/url/get";
+const deleteAPI = "/api/url/delete"
 
-export { host, signupAPI, loginAPI, API, getUrlsAPI, addUrlAPI, deleteAPI };
+const getProfileAPI = "/api/user/get";
+
+export { host, signupAPI, loginAPI, API, getUrlsAPI, addUrlAPI, deleteAPI, getProfileAPI };

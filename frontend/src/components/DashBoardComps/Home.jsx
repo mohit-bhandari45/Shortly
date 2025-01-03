@@ -1,10 +1,11 @@
+import { addUrlAPI, API, host } from "@/apis/api";
+import { Input } from "@/components/ui/input";
 import { Copy, Zap } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { addUrlAPI, API, host } from "@/apis/api";
-import toast from "react-hot-toast";
+import Cards from "./Cards";
 
 export const Home = () => {
   const [isURLShortened, setIsURLShortened] = useState(false);
@@ -38,9 +39,7 @@ export const Home = () => {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(
-        `${host}/${shortenedURL}`
-      );
+      await navigator.clipboard.writeText(`${host}/${shortenedURL}`);
       toast.success("Link Copied to Clipboard");
     } catch (err) {
       console.error("Failed to copy:", err);
@@ -82,6 +81,7 @@ export const Home = () => {
           )}
         </CardContent>
       </Card>
+      <Cards/>
     </div>
   );
 };
