@@ -1,4 +1,4 @@
-import { API, deleteAPI, getUrlsAPI } from "@/apis/api";
+import { API, deleteAPI, getUrlsAPI, host } from "@/apis/api";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -33,7 +33,7 @@ const Url = () => {
     if (res.status == 200) {
       if (res.data.length == 0) {
         toast.success("No Urls found");
-        console.log("Mohit")
+        console.log("Mohit");
       }
       setUrls(res.data);
     } else {
@@ -43,9 +43,7 @@ const Url = () => {
 
   const handleCopy = async (shortenedURL) => {
     try {
-      await navigator.clipboard.writeText(
-        `http://localhost:4000/${shortenedURL}`
-      );
+      await navigator.clipboard.writeText(`${host}/${shortenedURL}`);
       toast.success("Link Copied to Clipboard");
     } catch (err) {
       console.error("Failed to copy:", err);
@@ -54,8 +52,8 @@ const Url = () => {
 
   const handleOpen = async (shortenedURL) => {
     try {
-      window.open(`http://localhost:4000/${shortenedURL}`, "_blank");
-      getAllUrls()
+      window.open(`${host}/${shortenedURL}`, "_blank");
+      getAllUrls();
     } catch (err) {
       console.error("Failed to copy:", err);
     }

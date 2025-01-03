@@ -24,6 +24,6 @@ const loginAPI = `${host}/auth/login`;
 
 const addUrlAPI = "/api/add";
 const getUrlsAPI = "/api/get";
-const deleteAPI="/api/delete"
+const deleteAPI = "/api/delete"
 
-export { signupAPI, loginAPI, API,getUrlsAPI, addUrlAPI,deleteAPI };
+export { host, signupAPI, loginAPI, API, getUrlsAPI, addUrlAPI, deleteAPI };

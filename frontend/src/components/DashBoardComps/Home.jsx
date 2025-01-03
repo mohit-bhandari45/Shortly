@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { addUrlAPI, API } from "@/apis/api";
+import { addUrlAPI, API, host } from "@/apis/api";
 import toast from "react-hot-toast";
 
 export const Home = () => {
@@ -39,7 +39,7 @@ export const Home = () => {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(
-        `http://localhost:4000/${shortenedURL}`
+        `${host}/${shortenedURL}`
       );
       toast.success("Link Copied to Clipboard");
     } catch (err) {
@@ -72,7 +72,7 @@ export const Home = () => {
           ) : (
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="flex-1 flex items-center px-4 h-12 bg-white/5 rounded-md">
-                <span className="text-black">{`http://localhost:4000/api/get/${shortenedURL}`}</span>
+                <span className="text-black">{`${host}/${shortenedURL}`}</span>
               </div>
               <Button onClick={handleCopy} className="h-12 px-8">
                 <Copy className="w-4 h-4 mr-2" />
