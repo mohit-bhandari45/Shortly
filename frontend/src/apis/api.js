@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "https://screeching-matilda-mohit123-2e32ffda.koyeb.app/";
+const host = "https://screeching-matilda-mohit123-2e32ffda.koyeb.app";
 
 const API = axios.create({
     baseURL: host
