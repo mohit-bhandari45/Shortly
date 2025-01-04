@@ -1,19 +1,23 @@
 const { decodeToken } = require("../service/user");
 
 function checkAuth(req, res, next) {
-    const bearerToken = req.headers["authorization"];
-    if (!bearerToken) {
-        return res.status(401).json({ msg: "UnAuthorized" });
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Authorization token missing or malformed' });
     }
 
-    const tokenValue = bearerToken.split(" ")[1];
+    const token = authHeader.split(' ')[1];
 
-    const user = decodeToken(tokenValue);
-    if (!user) {
-        return res.status(401).json({ msg: "User Not Found" });
+    try {
+        const user = decodeToken(token);
+        req.user = user;
+
+        next();
+    } catch (err) {
+        const statusCode = err.message === 'Token expired' ? 401 : 403;
+        res.status(statusCode).json({ message: err.message });
     }
-    req.user = user;
-    next();
 }
 
 module.exports = checkAuth;

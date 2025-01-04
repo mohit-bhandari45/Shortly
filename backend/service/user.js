@@ -15,8 +15,12 @@ function generateToken(user) {
 }
 
 function decodeToken(token) {
-    const user = JWT.verify(token, process.env.JWT_SECRET);
-    return user;
+    try {
+        const user = JWT.verify(token, process.env.JWT_SECRET); // Verify the token
+        return user; // Return decoded user data
+    } catch (err) {
+        throw new Error(err.name === 'TokenExpiredError' ? 'Token expired' : 'Invalid token');
+    }
 }
 
 module.exports = { generateToken, decodeToken };

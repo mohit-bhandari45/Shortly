@@ -1,19 +1,56 @@
-import { Link } from "react-router-dom";
-import { Card, CardContent } from "../ui/card";
+/* eslint-disable react/prop-types */
+import { Activity, Link, MousePointerClick } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
-const Cards = () => {
+const Cards = ({ urls }) => {
+  const [totalClicks, setTotalClicks] = useState(0);
+
+  useEffect(() => {
+    const total = urls.reduce(
+      (t, url) => t + url.clicks,
+      0
+    );
+
+    setTotalClicks(total);
+  }, [urls]);
+
   return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-500">Total Links</p>
-            <p className="text-2xl font-bold">1,234</p>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-8 px-10">
+      <Card>
+        <CardHeader className="flex justify-between">
+          <CardTitle className="text-sm font-medium">Total Links</CardTitle>
+          <div className="text-2xl font-bold">
+            <Link />
           </div>
-          <Link className="w-8 h-8 text-gray-600" />
-        </div>
-      </CardContent>
-    </Card>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{urls.length}</div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm font-medium">Total Clicks</CardTitle>
+          <div className="text-2xl font-bold">
+            <MousePointerClick/>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalClicks}</div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm font-medium">Active Links</CardTitle>
+          <div className="text-2xl font-bold">
+            <Activity/>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">891</div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

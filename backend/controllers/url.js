@@ -42,6 +42,7 @@ async function addURLHandler(req, res) {
 
 async function getURLHandler(req, res) {
     const shortID = req.params.id;
+    console.log(shortID)
 
     try {
         const entry = await URL.findOne({
@@ -78,7 +79,8 @@ async function getAllUrls(req, res) {
         }
 
         const urls = userWithUrl.urls;
-        return res.json(urls);
+        const sortedUrls = urls.sort((a, b) => b.createdAt - a.createdAt);
+        return res.json(sortedUrls);
     } catch (error) {
         console.log(error);
         return res.status(500).json({ msg: "Internal Server Error" });

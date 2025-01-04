@@ -1,16 +1,35 @@
-import { addUrlAPI, API, host } from "@/apis/api";
+import { addUrlAPI, API, getUrlsAPI, host } from "@/apis/api";
 import { Input } from "@/components/ui/input";
 import { Copy, Zap } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import Cards from "./Cards";
+import Graph from "./Graph";
 
 export const Home = () => {
   const [isURLShortened, setIsURLShortened] = useState(false);
   const [shortenedURL, setShortenedURL] = useState("");
   const [url, setUrl] = useState("");
+  const [urls, setUrls] = useState([]);
+
+  useEffect(() => {
+    getAllUrls();
+  }, []);
+
+  const getAllUrls = async () => {
+    const res = await API.get(getUrlsAPI);
+    if (res.status == 200) {
+      if (res.data.length == 0) {
+        toast.success("No Urls found");
+        console.log("Mohit");
+      }
+      setUrls(res.data);
+    } else {
+      toast.error(res.data.msg);
+    }
+  };
 
   const handleShortenURL = async () => {
     const res = await API.post(
@@ -41,6 +60,8 @@ export const Home = () => {
     try {
       await navigator.clipboard.writeText(`${host}/${shortenedURL}`);
       toast.success("Link Copied to Clipboard");
+      setIsURLShortened(false)
+      setUrl("")
     } catch (err) {
       console.error("Failed to copy:", err);
     }
@@ -81,7 +102,8 @@ export const Home = () => {
           )}
         </CardContent>
       </Card>
-      <Cards/>
+      <Cards urls={urls}/>
+      <Graph urls={urls}/>
     </div>
   );
 };
