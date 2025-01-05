@@ -33,17 +33,13 @@ const Graph = ({ urls = [] }) => {
   return (
     <div className="gap-4 mb-8 px-10">
       <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Click Analytics</CardTitle>
-        </CardHeader>
         <CardContent>
           <div className="h-[400px] w-full">
-            <Card className="mb-8">
               <CardHeader>
                 <CardTitle>Click Analytics</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64">
+                <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={result}>
                       <CartesianGrid strokeDasharray="3 3" />
@@ -55,7 +51,6 @@ const Graph = ({ urls = [] }) => {
                   </ResponsiveContainer>
                 </div>
               </CardContent>
-            </Card>
           </div>
         </CardContent>
       </Card>

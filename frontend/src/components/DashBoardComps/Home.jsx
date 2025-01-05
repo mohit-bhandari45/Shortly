@@ -1,54 +1,51 @@
-import { addUrlAPI, API, getUrlsAPI, host } from "@/apis/api";
-import { Input } from "@/components/ui/input";
-import { Copy, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+
+/* Shadcn Comps */
+import { host } from "@/apis/api";
+import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
+
+/* Lucide and toast */
+import { Copy, Zap } from "lucide-react";
+import toast from "react-hot-toast";
+
+/* normal comps and utils functions */
 import Cards from "./Cards";
 import Graph from "./Graph";
+import { getAllUrlsHandler, shortenURLHandler } from "./utils/utils";
 
+/* Main Comp */
 export const Home = () => {
   const [isURLShortened, setIsURLShortened] = useState(false);
   const [shortenedURL, setShortenedURL] = useState("");
   const [url, setUrl] = useState("");
-  const [urls, setUrls] = useState([]);
+  const [urls, setUrls] = useState(null);
+
+  const getAllUrls = async () => {
+    const response = await getAllUrlsHandler();
+    if (response.status === 200) {
+      if (response.data.length == 0) {
+        toast.success("No Urls found");
+      }
+      setUrls(response.data);
+    } else {
+      toast.error(response.data);
+    }
+  };
 
   useEffect(() => {
     getAllUrls();
   }, []);
 
-  const getAllUrls = async () => {
-    const res = await API.get(getUrlsAPI);
-    if (res.status == 200) {
-      if (res.data.length == 0) {
-        toast.success("No Urls found");
-        console.log("Mohit");
-      }
-      setUrls(res.data);
-    } else {
-      toast.error(res.data.msg);
-    }
-  };
-
   const handleShortenURL = async () => {
-    const res = await API.post(
-      addUrlAPI,
-      {
-        url: url,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await shortenURLHandler(url);
 
-    if (res.status == 201) {
-      setShortenedURL(res.data.shortID);
+    if (response.status == 201) {
+      setShortenedURL(response.data);
       setIsURLShortened(true);
     } else {
-      toast.error(res.data.msg);
+      toast.error(response.data);
     }
   };
 
@@ -60,8 +57,8 @@ export const Home = () => {
     try {
       await navigator.clipboard.writeText(`${host}/${shortenedURL}`);
       toast.success("Link Copied to Clipboard");
-      setIsURLShortened(false)
-      setUrl("")
+      setIsURLShortened(false);
+      setUrl("");
     } catch (err) {
       console.error("Failed to copy:", err);
     }
@@ -102,8 +99,8 @@ export const Home = () => {
           )}
         </CardContent>
       </Card>
-      <Cards urls={urls}/>
-      <Graph urls={urls}/>
+      <Cards urls={urls} />
+      <Graph urls={urls} />
     </div>
   );
 };

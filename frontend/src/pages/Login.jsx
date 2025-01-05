@@ -1,4 +1,11 @@
-import { loginAPI } from "@/apis/api";
+/* React & Context */
+import { AppContext } from "@/context/context";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { loginHandler } from "./utils/utils";
+
+/* Shadcn Comps */
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,11 +17,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
+/* Toast and spinner and lucide comps */
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
-import { ClimbingBoxLoader } from "react-spinners";
+import { CircleLoader } from "react-spinners";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -25,9 +32,11 @@ const LoginForm = () => {
     password: "",
   });
 
-  const [pageLoading, setPageLoading] = useState(true);
+  const { pageLoading, setPageLoading } = useContext(AppContext);
 
   useEffect(() => {
+    setPageLoading(true);
+
     if (localStorage.getItem("token")) {
       navigate("/dashboard");
     } else {
@@ -39,21 +48,13 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch(loginAPI, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
+    const response = await loginHandler(userData);
 
-    const data = await res.json();
-
-    if (res.status == 200) {
-      localStorage.setItem("token", data);
+    if (response.status == 200) {
+      localStorage.setItem("token", response.data);
       navigate("/dashboard");
     } else {
-      toast.error(data.msg);
+      toast.error(response.data);
     }
 
     setUserData({
@@ -71,7 +72,11 @@ const LoginForm = () => {
   };
 
   if (pageLoading) {
-    return <ClimbingBoxLoader />;
+    return (
+      <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+        <CircleLoader size={400} />;
+      </div>
+    );
   }
 
   return (

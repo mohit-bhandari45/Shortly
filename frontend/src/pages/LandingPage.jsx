@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ClimbingBoxLoader } from "react-spinners";
+import { CircleLoader } from "react-spinners";
 
 /* Components */
 import Feature from "@/components/LandingPageComps/Feature";
@@ -8,10 +8,14 @@ import Hero from "@/components/LandingPageComps/Hero";
 import Navbar from "@/components/LandingPageComps/Navbar";
 import Stats from "@/components/LandingPageComps/Stats";
 
+/* Context */
+import { AppContext } from "@/context/context";
+import { useContext } from "react";
+
 /* Component */
 const LandingPage = () => {
   const navigate = useNavigate();
-  const [pageLoading, setPageLoading] = useState(true);
+  const { pageLoading, setPageLoading } = useContext(AppContext);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -22,7 +26,9 @@ const LandingPage = () => {
   }, []);
 
   if (pageLoading) {
-    return <ClimbingBoxLoader />;
+    return <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+      <CircleLoader size={400}/>;
+    </div>
   }
 
   return (

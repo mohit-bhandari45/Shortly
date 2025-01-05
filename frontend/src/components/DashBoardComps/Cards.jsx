@@ -2,17 +2,16 @@
 import { Activity, Link, MousePointerClick } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { CircleLoader } from "react-spinners";
 
 const Cards = ({ urls }) => {
   const [totalClicks, setTotalClicks] = useState(0);
 
   useEffect(() => {
-    const total = urls.reduce(
-      (t, url) => t + url.clicks,
-      0
-    );
-
-    setTotalClicks(total);
+    if (urls) {
+      const total = urls.reduce((t, url) => t + url.clicks, 0);
+      setTotalClicks(total);
+    }
   }, [urls]);
 
   return (
@@ -25,29 +24,41 @@ const Cards = ({ urls }) => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{urls.length}</div>
+          {urls ? (
+            <div className="text-2xl font-bold">{urls.length}</div>
+          ) : (
+            <CircleLoader size={30} />
+          )}
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
           <CardTitle className="text-sm font-medium">Total Clicks</CardTitle>
           <div className="text-2xl font-bold">
-            <MousePointerClick/>
+            <MousePointerClick />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{totalClicks}</div>
+          {urls ? (
+            <div className="text-2xl font-bold">{totalClicks}</div>
+          ) : (
+            <CircleLoader size={30} />
+          )}
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
           <CardTitle className="text-sm font-medium">Active Links</CardTitle>
           <div className="text-2xl font-bold">
-            <Activity/>
+            <Activity />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">891</div>
+          {urls ? (
+            <div className="text-2xl font-bold">891</div>
+          ) : (
+            <CircleLoader size={30} />
+          )}
         </CardContent>
       </Card>
     </div>

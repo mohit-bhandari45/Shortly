@@ -1,3 +1,9 @@
+/* React and Context */
+import { AppContext } from "@/context/context";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+/* Shadcn Comps */
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -11,26 +17,29 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ClimbingBoxLoader } from "react-spinners";
+import { CircleLoader } from "react-spinners";
 
+
+/* Main Component */
+// eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const { pageLoading, setPageLoading } = useContext(AppContext);
 
   useEffect(() => {
+    setPageLoading(true);
+    
     if (!localStorage.getItem("token")) {
       navigate("/login");
     } else {
-      setLoading(false);
+      setPageLoading(false);
     }
   }, []);
 
-  if (loading) {
+  if (pageLoading) {
     return (
-      <div className="w-full h-full flex justify-center items-center">
-        <ClimbingBoxLoader />;
+      <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+        <CircleLoader size={400} />;
       </div>
     );
   }
@@ -48,10 +57,6 @@ const Layout = ({ children }) => {
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#">Home</BreadcrumbLink>
                 </BreadcrumbItem>
-                {/* <BreadcrumbSeparator className="hidden md:block" />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                    </BreadcrumbItem> */}
               </BreadcrumbList>
             </Breadcrumb>
           </div>

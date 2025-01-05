@@ -75,12 +75,12 @@ async function getAllUrls(req, res) {
         });
 
         if (!userWithUrl) {
-            return res.status(200).json([]);
+            return res.status(200).json({ urls: [] });
         }
 
         const urls = userWithUrl.urls;
         const sortedUrls = urls.sort((a, b) => b.createdAt - a.createdAt);
-        return res.json(sortedUrls);
+        return res.status(200).json({ urls: sortedUrls });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ msg: "Internal Server Error" });

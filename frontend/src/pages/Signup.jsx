@@ -1,4 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+/* Shadcn Components */
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,14 +12,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { signupAPI } from "@/apis/api";
-import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { ClimbingBoxLoader } from "react-spinners";
 
+/* Toast & lucide-react comps & spinners*/
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import toast from "react-hot-toast";
+import { CircleLoader } from "react-spinners";
+
+/* Context & api functions*/
+import { AppContext } from "@/context/context";
+import { signUpHandler } from "./utils/utils";
+
+/* Main Component */
 const SignupForm = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
@@ -26,9 +34,10 @@ const SignupForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [pageLoading, setPageLoading] = useState(true);
+  const { pageLoading, setPageLoading } = useContext(AppContext);
 
   useEffect(() => {
+    setPageLoading(true);
     if (localStorage.getItem("token")) {
       navigate("/dashboard");
     } else {
@@ -41,20 +50,13 @@ const SignupForm = () => {
     setLoading(true);
 
     /* Fetch */
-    const res = await fetch(signupAPI, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
+    const response = await signUpHandler(userData);
+    console.log(response);
 
-    const data = await res.json();
-
-    if (res.status == 201) {
+    if (response.status == 201) {
       navigate("/login");
     } else {
-      toast.error(data.msg);
+      toast.error(response.msg);
     }
 
     setUserData({
@@ -66,14 +68,15 @@ const SignupForm = () => {
   };
 
   const handleChange = (e) => {
-    setUserData({
-      ...userData,
-      [e.target.name]: e.target.value,
-    });
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
   if (pageLoading) {
-    return <ClimbingBoxLoader />;
+    return (
+      <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+        <CircleLoader size={400} />;
+      </div>
+    );
   }
 
   return (
@@ -162,7 +165,10 @@ const SignupForm = () => {
         <CardFooter className="flex flex-col space-y-4 text-center text-sm text-gray-600">
           <div>
             Already have an account?{" "}
-            <Link to="/login" className="text-black hover:underline font-medium">
+            <Link
+              to="/login"
+              className="text-black hover:underline font-medium"
+            >
               Sign in
             </Link>
           </div>

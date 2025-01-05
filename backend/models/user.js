@@ -66,7 +66,7 @@ userSchema.static("matchPassGenToken", async function (email, password) {
     const token = generateToken(user);
     return {
         status: 200,
-        msg: token,
+        token: token
     };
 });
 

@@ -35,7 +35,7 @@ async function loginHandler(req, res) {
             return res.status(data.status).json({ msg: data.msg });
         }
 
-        return res.status(data.status).json(data.msg);
+        return res.status(data.status).json({ token: data.token });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ msg: "Internal Server Error" });

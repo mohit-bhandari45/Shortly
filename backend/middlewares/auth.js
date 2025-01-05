@@ -15,7 +15,7 @@ function checkAuth(req, res, next) {
 
         next();
     } catch (err) {
-        const statusCode = err.message === 'Token expired' ? 401 : 403;
+        const statusCode = err.message === "Token expired" ? 401 : 403;
         res.status(statusCode).json({ message: err.message });
     }
 }
