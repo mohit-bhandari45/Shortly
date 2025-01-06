@@ -11,13 +11,16 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
-const Graph = ({ urls }) => { 
+const Graph = ({ urls }) => {
   const acc = {};
-
+  
+  console.log(urls);
   const groupByDate = (urls) => {
     if (urls) {
       urls.map((url) => {
+        console.log(url);
         url.clicks.map((count) => {
+          console.loG(count);
           const date = format(parseISO(count.createdAt), "yyyy-MM-dd");
           acc[date] = (acc[date] || 0) + 1;
         });
@@ -36,22 +39,30 @@ const Graph = ({ urls }) => {
     <div className="gap-4 mb-8 px-10">
       <Card className="mb-8">
         <CardContent>
-          <div className="h-[400px] w-full">
+          <div
+            className={`${
+              result.length === 0 ? "h-[100px]" : "h-[400px]"
+            } w-full`}
+          >
             <CardHeader>
               <CardTitle>Click Analytics</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={result}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="clicks" stroke="#000000" />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
+              {result.length > 0 ? (
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={result}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="clicks" stroke="#000000" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <div>No Data To Display</div>
+              )}
             </CardContent>
           </div>
         </CardContent>
