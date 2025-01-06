@@ -11,15 +11,17 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
-const Graph = ({ urls = [] }) => {
+const Graph = ({ urls }) => {
   const acc = {};
 
   const groupByDate = (urls) => {
-    urls.map((url) => {
-      const date = format(parseISO(url.createdAt), "yyyy-MM-dd");
-
-      acc[date] = (acc[date] || 0) + url.clicks;
-    });
+    if(urls){
+      urls.map((url) => {
+        const date = format(parseISO(url.createdAt), "yyyy-MM-dd");
+  
+        acc[date] = (acc[date] || 0) + url.clicks;
+      });
+    }
     return acc;
   };
 

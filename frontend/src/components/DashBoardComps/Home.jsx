@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 /* normal comps and utils functions */
 import Cards from "./Cards";
 import Graph from "./Graph";
-import { getAllUrlsHandler, shortenURLHandler } from "./utils/utils";
+import { getAllUrlsHandler, shortenURLHandler } from "../utils/utils";
 
 /* Main Comp */
 export const Home = () => {

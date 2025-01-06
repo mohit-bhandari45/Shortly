@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const host = "https://screeching-matilda-mohit123-2e32ffda.koyeb.app";
-const host = "http://localhost:4000";
+const host = "https://screeching-matilda-mohit123-2e32ffda.koyeb.app";
+// const host = "http://localhost:4000";
 
 const API = axios.create({
     baseURL: host
@@ -26,7 +26,7 @@ API.interceptors.response.use(
         return response
     },
     (error) => {
-        if (error.response && error.response.status === 401 && error.response.message=="Token expired") {
+        if (error.response && error.response.status === 401 && error.response.data.message === "Token expired") {
             console.log(error.response.message);
 
             localStorage.removeItem("token");

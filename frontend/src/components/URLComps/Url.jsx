@@ -1,4 +1,4 @@
-import { API, deleteAPI, getUrlsAPI, host } from "@/apis/api";
+import { API, deleteAPI, host } from "@/apis/api";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,26 +20,26 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ClimbingBoxLoader } from "react-spinners";
+import { getAllUrlsHandler } from "../utils/utils";
 
 const Url = () => {
   const [urls, setUrls] = useState(null);
 
+  const getAllUrls = async () => {
+    const response = await getAllUrlsHandler();
+    if (response.status === 200) {
+      if (response.data.length == 0) {
+        toast.success("No Urls found");
+      }
+      setUrls(response.data);
+    } else {
+      toast.error(response.data);
+    }
+  };
+
   useEffect(() => {
     getAllUrls();
   }, []);
-
-  const getAllUrls = async () => {
-    const res = await API.get(getUrlsAPI);
-    if (res.status == 200) {
-      if (res.data.length == 0) {
-        toast.success("No Urls found");
-        console.log("Mohit");
-      }
-      setUrls(res.data);
-    } else {
-      toast.error(res.data.msg);
-    }
-  };
 
   const handleCopy = async (shortenedURL) => {
     try {
