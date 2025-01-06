@@ -9,7 +9,7 @@ const Cards = ({ urls }) => {
 
   useEffect(() => {
     if (urls) {
-      const total = urls.reduce((t, url) => t + url.clicks, 0);
+      let total = urls.reduce((count, url) => count + url.clicks.length, 0);
       setTotalClicks(total);
     }
   }, [urls]);

@@ -33,6 +33,7 @@ async function addURLHandler(req, res) {
                 },
             ],
         });
+
         return res.status(201).json({ shortID: shortID });
     } catch (error) {
         console.log(error);
@@ -56,7 +57,9 @@ async function getURLHandler(req, res) {
         }
 
         const matchedURL = entry.urls.find((url) => url.shortURL === shortID);
-        matchedURL.clicks = matchedURL.clicks + 1;
+        matchedURL.clicks = [...matchedURL.clicks, {
+            count: 1
+        }]
         await entry.save();
 
         return res.redirect(matchedURL.originalURL);

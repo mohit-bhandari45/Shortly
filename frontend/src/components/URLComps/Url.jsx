@@ -117,7 +117,7 @@ const Url = () => {
                       {url.originalURL}
                     </TableCell>
                     <TableCell>{url.shortURL}</TableCell>
-                    <TableCell>{url.clicks}</TableCell>
+                    <TableCell>{url.clicks.length}</TableCell>
                     <TableCell>{formatDate(url.createdAt)}</TableCell>
                     <TableCell>
                       <div className="flex gap-2">

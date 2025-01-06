@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+const countSchema = new mongoose.Schema({
+    count: Number,
+}, { timestamps: true })
+
 const urlPartSchema = new mongoose.Schema(
     {
         shortURL: {
@@ -9,10 +13,7 @@ const urlPartSchema = new mongoose.Schema(
         originalURL: {
             type: String,
         },
-        clicks: {
-            type: Number,
-            default: 0,
-        },
+        clicks: [countSchema]
     },
     { timestamps: true },
 );

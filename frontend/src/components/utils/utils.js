@@ -30,4 +30,4 @@ const shortenURLHandler = async (url) => {
     return response;
 };
 
-export { getAllUrlsHandler,shortenURLHandler };
+export { getAllUrlsHandler, shortenURLHandler };
