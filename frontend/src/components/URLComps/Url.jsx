@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { API, deleteAPI, host } from "@/apis/api";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,9 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Copy, ExternalLink, Trash2 } from "lucide-react";
+import { Copy, ExternalLink, Trash2, Dot } from "lucide-react";
 import moment from "moment";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ClimbingBoxLoader } from "react-spinners";
 import { getAllUrlsHandler } from "../utils/utils";
@@ -53,7 +53,7 @@ const Url = () => {
   const handleOpen = async (shortenedURL) => {
     try {
       window.open(`${host}/${shortenedURL}`, "_blank");
-      getAllUrls();``
+      getAllUrls();
     } catch (err) {
       console.error("Failed to copy:", err);
     }
@@ -142,6 +142,11 @@ const Url = () => {
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
+                        {url.isActive ? (
+                          <Dot className="text-green-400 w-10 h-10" />
+                        ) : (
+                          <Dot className="text-red-500 w-10 h-10" />
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>

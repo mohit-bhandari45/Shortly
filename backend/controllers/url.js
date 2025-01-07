@@ -43,7 +43,6 @@ async function addURLHandler(req, res) {
 
 async function getURLHandler(req, res) {
     const shortID = req.params.id;
-    console.log(shortID)
 
     try {
         const entry = await URL.findOne({
@@ -57,6 +56,14 @@ async function getURLHandler(req, res) {
         }
 
         const matchedURL = entry.urls.find((url) => url.shortURL === shortID);
+
+        const date = new Date();
+        const urlDate = matchedURL.expiresAt;   
+
+        if (date.toLocaleString() > urlDate.toLocaleString()) {
+            return res.status(404).send("<h2>Current URL is not active. Please generate a fresh url</h2>");
+        }
+
         matchedURL.clicks = [...matchedURL.clicks, {
             count: 1
         }]
