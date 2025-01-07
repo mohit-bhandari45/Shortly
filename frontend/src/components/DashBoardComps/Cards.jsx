@@ -6,11 +6,20 @@ import { CircleLoader } from "react-spinners";
 
 const Cards = ({ urls }) => {
   const [totalClicks, setTotalClicks] = useState(0);
+  const [activeLinks, setActiveLinks] = useState(null);
 
   useEffect(() => {
     if (urls) {
       let total = urls.reduce((count, url) => count + url.clicks.length, 0);
       setTotalClicks(total);
+      let date = new Date();
+      const active = urls.map((d) => {
+        const expire = new Date(d.expiresAt);
+        if (expire > date) {
+          return d;
+        }
+      });
+      setActiveLinks(active);
     }
   }, [urls]);
 
@@ -55,10 +64,12 @@ const Cards = ({ urls }) => {
         </CardHeader>
         <CardContent>
           {urls ? (
-            <div className="text-2xl font-bold">891</div>
+            <div className="text-2xl font-bold">
+              {activeLinks && activeLinks.length}
+            </div>
           ) : (
             <CircleLoader size={30} />
-          )}
+          )}q
         </CardContent>
       </Card>
     </div>

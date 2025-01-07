@@ -13,14 +13,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 const Graph = ({ urls }) => {
   const acc = {};
-  
-  console.log(urls);
   const groupByDate = (urls) => {
     if (urls) {
       urls.map((url) => {
-        console.log(url);
         url.clicks.map((count) => {
-          console.loG(count);
           const date = format(parseISO(count.createdAt), "yyyy-MM-dd");
           acc[date] = (acc[date] || 0) + 1;
         });

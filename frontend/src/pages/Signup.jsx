@@ -51,7 +51,6 @@ const SignupForm = () => {
 
     /* Fetch */
     const response = await signUpHandler(userData);
-    console.log(response);
 
     if (response.status == 201) {
       navigate("/login");

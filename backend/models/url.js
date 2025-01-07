@@ -13,7 +13,12 @@ const urlPartSchema = new mongoose.Schema(
         originalURL: {
             type: String,
         },
-        clicks: [countSchema]
+        clicks: [countSchema],
+        expiresAt: {
+            type: Date,
+            required: true,
+            default: () => new Date(Date.now() + 24 * 60 * 60 * 1000)
+        }
     },
     { timestamps: true },
 );

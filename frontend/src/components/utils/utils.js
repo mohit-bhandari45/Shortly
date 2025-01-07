@@ -10,24 +10,31 @@ const getAllUrlsHandler = async () => {
 };
 
 const shortenURLHandler = async (url) => {
-    const res = await API.post(
-        addUrlAPI,
-        {
-            url: url,
-        },
-        {
-            headers: {
-                "Content-Type": "application/json",
+    try {
+        new URL(url); // If the URL constructor doesn't throw, the URL is valid
+        const res = await API.post(
+            addUrlAPI,
+            {
+                url: url,
             },
-        }
-    );
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
-    const response = {
-        status: res.status,
-        data: res.status === 201 ? res.data.shortID : res.data.msg,
+        const response = {
+            status: res.status,
+            data: res.status === 201 ? res.data.shortID : res.data.msg,
+        }
+
+        return response;
+    } catch (error) {
+        console.log(error);
+        return "Invalid URL";
     }
 
-    return response;
 };
 
 export { getAllUrlsHandler, shortenURLHandler };

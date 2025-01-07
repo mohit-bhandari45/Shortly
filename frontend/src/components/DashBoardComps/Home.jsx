@@ -29,6 +29,7 @@ export const Home = () => {
         toast.success("No Urls found");
       }
       setUrls(response.data);
+      
     } else {
       toast.error(response.data);
     }
@@ -40,6 +41,12 @@ export const Home = () => {
 
   const handleShortenURL = async () => {
     const response = await shortenURLHandler(url);
+
+    if (response === "Invalid URL") {
+      toast.error("Invalid URL, Please enter a valid url!");
+      setUrl("");
+      return;
+    }
 
     if (response.status == 201) {
       setShortenedURL(response.data);
