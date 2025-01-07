@@ -29,7 +29,6 @@ export const Home = () => {
         toast.success("No Urls found");
       }
       setUrls(response.data);
-      
     } else {
       toast.error(response.data);
     }
@@ -51,6 +50,7 @@ export const Home = () => {
     if (response.status == 201) {
       setShortenedURL(response.data);
       setIsURLShortened(true);
+      getAllUrls()
     } else {
       toast.error(response.data);
     }

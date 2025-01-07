@@ -53,7 +53,7 @@ const Url = () => {
   const handleOpen = async (shortenedURL) => {
     try {
       window.open(`${host}/${shortenedURL}`, "_blank");
-      getAllUrls();
+      getAllUrls();``
     } catch (err) {
       console.error("Failed to copy:", err);
     }

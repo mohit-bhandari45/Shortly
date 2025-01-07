@@ -14,6 +14,10 @@ const urlPartSchema = new mongoose.Schema(
             type: String,
         },
         clicks: [countSchema],
+        isActive: {
+            type: Boolean,
+            default: true
+        },
         expiresAt: {
             type: Date,
             required: true,

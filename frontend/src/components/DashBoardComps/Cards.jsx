@@ -12,11 +12,9 @@ const Cards = ({ urls }) => {
     if (urls) {
       let total = urls.reduce((count, url) => count + url.clicks.length, 0);
       setTotalClicks(total);
-      let date = new Date();
-      const active = urls.map((d) => {
-        const expire = new Date(d.expiresAt);
-        if (expire > date) {
-          return d;
+      const active = urls.map((url) => {
+        if (url.isActive) {
+          return url;
         }
       });
       setActiveLinks(active);
@@ -69,7 +67,7 @@ const Cards = ({ urls }) => {
             </div>
           ) : (
             <CircleLoader size={30} />
-          )}q
+          )}
         </CardContent>
       </Card>
     </div>
