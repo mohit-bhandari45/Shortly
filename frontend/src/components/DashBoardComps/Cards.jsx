@@ -12,11 +12,7 @@ const Cards = ({ urls }) => {
     if (urls) {
       let total = urls.reduce((count, url) => count + url.clicks.length, 0);
       setTotalClicks(total);
-      const active = urls.map((url) => {
-        if (url.isActive) {
-          return url;
-        }
-      });
+      const active = urls.filter((url) => url.isActive === true);
       setActiveLinks(active);
     }
   }, [urls]);
